@@ -14,7 +14,7 @@ Dim aRange As Range
 Dim j, k As Integer
 Dim keepCol As Boolean
 
-Set wb = Application.Workbooks.Open("C:\Users\pjones13\Downloads\LCGMS_SchoolData.xls")
+Set wb = Application.Workbooks.Open("C:\Users\my_user_name\Downloads\LCGMS_SchoolData.xls")
 Set ws = wb.Sheets(1)
 ws.Activate
 
