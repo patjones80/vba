@@ -7,19 +7,16 @@ Private lngStepTime As Long
 
 Public Const N = 100
 
-Public Sub StartTimer()
-    'Start the timer, storing the value in the module global, lngStartTime
+Public Sub StartTimer()				'Start the timer, storing the value in the module global, lngStartTime
     lngStartTime = timeGetTime()
     lngStepTime = 0#
 End Sub
 
-Public Function TotalTime() As Long
-    'End timing and return the difference between the current time and lngStartTime
+Public Function TotalTime() As Long    		'End timing and return the difference between the current time and lngStartTime
     TotalTime = timeGetTime() - lngStartTime
 End Function
 
-Public Function StepTime() As Long
-    'Find the amount of time elapsed only since the previous time check
+Public Function StepTime() As Long		'Find the amount of time elapsed only since the previous time check
     lngStepTime = timeGetTime() - lngStepTime
     StepTime = lngStepTime
 End Function
