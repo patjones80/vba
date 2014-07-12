@@ -1,0 +1,79 @@
+Option Compare Database
+Option Base 1
+
+Private Declare Function timeGetTime Lib "winmm.dll" () As Long
+Private lngStartTime As Long
+Private lngStepTime As Long
+
+Public Const N = 100
+
+Public Sub StartTimer()
+    'Start the timer, storing the value in the module global, lngStartTime
+    lngStartTime = timeGetTime()
+    lngStepTime = 0#
+End Sub
+
+Public Function TotalTime() As Long
+    'End timing and return the difference between the current time and lngStartTime
+    TotalTime = timeGetTime() - lngStartTime
+End Function
+
+Public Function StepTime() As Long
+    'Find the amount of time elapsed only since the previous time check
+    lngStepTime = timeGetTime() - lngStepTime
+    StepTime = lngStepTime
+End Function
+
+'- - - - - - - - - - 
+'Example usage: timing Bubble Sort
+'- - - - - - - - - -
+
+Public Sub getAndSortList()
+
+Dim sw As Stopwatch
+Dim aRand(N) As Long
+
+Randomize
+Set sw = New Stopwatch
+
+For j = 1 To N
+    aRand(j) = Int((1000 * Rnd) + 1)
+    Debug.Print aRand(j) & IIf(j <> N, ", ", "");
+Next j
+
+Debug.Print
+
+sw.StartTimer
+    sortList aRand()
+Debug.Print "The sort time was: " & sw.TotalTime
+
+For j = 1 To N
+    Debug.Print aRand(j) & IIf(j <> N, ", ", "");
+Next j
+
+End Sub
+
+Public Sub sortList(arrToSort() As Long)
+
+Dim i As Long, temp As Long, num_total As Long
+Dim blnSwitch As Boolean
+
+num_total = UBound(arrToSort)
+blnSwitch = True
+
+While blnSwitch
+
+    blnSwitch = False
+    
+    For i = 1 To num_total - 1
+        If arrToSort(i) > arrToSort(i + 1) Then
+            temp = arrToSort(i + 1)
+            arrToSort(i + 1) = arrToSort(i)
+            arrToSort(i) = temp
+            blnSwitch = True
+        End If
+    Next i
+
+Wend
+
+End Sub
