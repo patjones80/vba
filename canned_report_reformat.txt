@@ -1,0 +1,53 @@
+
+Option Base 1
+
+Public wb As Workbook
+Public ws As Worksheet
+
+Public lastRow As Integer
+Public lastCol As Integer
+
+Public Sub FormatLCGMS()
+
+Dim arrColToKeep() As Variant
+Dim aRange As Range
+Dim j, k As Integer
+Dim keepCol As Boolean
+
+Set wb = Application.Workbooks.Open("C:\Users\pjones13\Downloads\LCGMS_SchoolData.xls")
+Set ws = wb.Sheets(1)
+ws.Activate
+
+Set aRange = ws.Range("A1").SpecialCells(xlCellTypeLastCell)
+lastRow = aRange.Row
+lastCol = aRange.Column
+
+arrColToKeep = Array("ATS System Code", "Location Code", "Location Name", "Principal Name", "Principal Email", "Superintendent", "Superintendent Email")
+
+For j = lastCol To 1 Step -1
+    keepCol = False
+    
+    For k = 1 To UBound(arrColToKeep)
+        If Cells(1, j) = arrColToKeep(k) Then keepCol = True
+    Next k
+    
+    If keepCol Then                                             'reformat the column appropriately
+        Columns(j).WrapText = False
+        Columns(j).HorizontalAlignment = xlHAlignLeft
+        Columns(j).AutoFit
+    Else
+        Columns(j).Select                                       'kill the column if we don't want it
+        Selection.Delete Shift:=xlLeft
+    End If
+
+Next j
+
+ws.Application.ActiveWindow.SplitRow = 1                        'freeze top row
+ws.Application.ActiveWindow.FreezePanes = True
+
+ws.Name = "lcgms"                                               'rename sheet
+
+Set ws = Nothing
+Set wb = Nothing
+
+End Sub
