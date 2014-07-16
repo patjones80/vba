@@ -1,0 +1,34 @@
+
+Sub removeColumn(colToRemove As String, sheetName As String)
+
+Dim wb As Workbook
+Dim ws As Worksheet
+
+Dim sFile As String
+Dim sPath As String
+
+sPath = "E:\some_file_folder\"
+sFile = Dir(sPath & "*.xls", vbNormal)
+
+While sFile <> ""
+
+    Set wb = Application.Workbooks.Open(sPath & sFile)
+
+    Set ws = wb.Worksheets(sheetName)
+    ws.Activate
+
+    ws.Columns(colToRemove & ":" & colToRemove).Select
+    Selection.Delete Shift:=xlToLeft
+
+    wb.Saved = True
+    wb.Save
+    
+    wb.Close
+    
+    sFile = Dir()
+
+Wend
+
+Set wb = Nothing
+
+End Sub

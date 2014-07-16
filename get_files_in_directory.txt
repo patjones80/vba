@@ -1,0 +1,26 @@
+
+Sub GetFileNames()
+
+    Dim f As FileDialog
+    Dim varFolder As Variant
+    Dim strFileName As String
+    
+    Set f = Application.FileDialog(msoFileDialogFolderPicker)
+    
+    If f.Show = -1 Then
+        For Each varFolder In f.SelectedItems
+            Open varFolder & "\file_names.txt" For Output As 5
+            strFileName = Dir(varFolder & "\*.xls", vbNormal)
+            Write #5, strFileName & Chr(10) & Chr(13)
+            
+            Do
+                strFileName = Dir()
+                Write #5, strFileName
+            Loop While strFileName <> ""
+                
+            Close 5
+            
+        Next
+    End If
+    
+End Sub
